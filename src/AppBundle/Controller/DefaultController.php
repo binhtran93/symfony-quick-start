@@ -20,15 +20,39 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/test/{page}", requirements={"page"="\d+"})
+     * @Route("/test/{page}", requirements={"page"="[a-zA-Z]+\."})
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function testRequirements(Request $request) {
         return $this->json([
-            'success' => 1
+            'success' => 'requirements'
         ]);
     }
 
+    /**
+     * @Route("/test/{page}", requirements={"page"="\d+"})
+     * @param Request $request
+     * @param int $page
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function testDefaultValue(Request $request, $page=1) {
+        return $this->json([
+            'success' => 'default value ' . $page
+        ]);
+    }
 
+    /**
+     * @Route("/test/generate", name="test-generate")
+     */
+    public function testGenerateUrl() {
+        $url = $this->generateUrl(
+            'test-generate',
+            ['slug' => 'my-blog-post']
+        );
+
+        return $this->json([
+            'url' => $url
+        ]);
+    }
 }
