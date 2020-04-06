@@ -5,3 +5,11 @@ app:
 app_extra:
     resource: .
     type: extra
+    prefix: admin
+
+root:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /admin
+        permanent: true
