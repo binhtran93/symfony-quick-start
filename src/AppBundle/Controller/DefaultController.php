@@ -2,12 +2,20 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Service\TestService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends Controller
 {
+    public function __construct()
+    {
+    }
+
     /**
      * @Route("/", name="homepage")
      */
@@ -32,14 +40,13 @@ class DefaultController extends Controller
 
     /**
      * @Route("/test/{page}", requirements={"page"="\d+"})
-     * @param Request $request
+     * @param TestService $testService
      * @param int $page
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return Response
      */
-    public function testDefaultValue(Request $request, $page=1) {
-        return $this->json([
-            'success' => 'default value ' . $page
-        ]);
+    public function testDefaultValue(TestService $testService, $page=1) {
+
+        return new Response("default " . $page . " " . $testService->getEmail());
     }
 
     /**
